@@ -1,0 +1,447 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Paradita MX - El Sabor de Mazamari</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka+One&display=swap');
+        
+        :root {
+            --mex-green: #006847;
+            --mex-white: #f4f4f4;
+            --mex-red: #ce1126;
+            --mex-yellow: #ffb81c;
+        }
+
+        body {
+            background-color: var(--mex-white);
+            font-family: 'Fredoka One', cursive;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .mexican-font {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 2px;
+        }
+
+        .bg-mex-green { background-color: var(--mex-green); }
+        .bg-mex-red { background-color: var(--mex-red); }
+        .bg-mex-yellow { background-color: var(--mex-yellow); }
+        .text-mex-red { color: var(--mex-red); }
+        .text-mex-green { color: var(--mex-green); }
+
+        .papel-picado {
+            background-image: radial-gradient(circle at 10px 10px, transparent 10px, var(--mex-red) 11px);
+            background-size: 20px 20px;
+            height: 15px;
+            width: 100%;
+        }
+
+        .promo-banner {
+            background: linear-gradient(45deg, var(--mex-green), #008a5e);
+            border: 4px dashed var(--mex-yellow);
+        }
+
+        .product-card {
+            border: 3px solid #ddd;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .product-card:active { transform: scale(0.98); }
+
+        .flavor-chip {
+            border: 3px solid #eee;
+            transition: all 0.2s;
+        }
+
+        .flavor-chip.selected {
+            border-color: var(--mex-red);
+            background-color: #fff1f2;
+            transform: scale(1.02);
+        }
+
+        #ai-chat-window {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 200;
+            flex-direction: column;
+        }
+        #ai-chat-window.active { display: flex; }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #ccc;
+            border-radius: 50%;
+            margin-right: 3px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes pulse-yellow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 184, 28, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 184, 28, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 184, 28, 0); }
+        }
+        .pulse { animation: pulse-yellow 2s infinite; }
+
+        footer {
+            background-color: #111;
+            color: white;
+            border-radius: 3rem 3rem 0 0;
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <div class="flex h-2">
+        <div class="flex-1 bg-mex-green"></div>
+        <div class="flex-1 bg-white"></div>
+        <div class="flex-1 bg-mex-red"></div>
+    </div>
+
+    <header class="py-8 px-4 text-center bg-white">
+        <h1 class="mexican-font text-5xl md:text-7xl text-mex-red uppercase italic">La Paradita MX</h1>
+        <p class="text-mex-green font-bold text-sm tracking-widest mt-1">SABOR MEXICANO • MAZAMARI</p>
+    </header>
+
+    <div class="papel-picado"></div>
+
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md z-40 overflow-x-auto no-scrollbar py-4 px-4 shadow-md flex gap-2">
+        <button onclick="scrollToId('sec-tacos')" class="px-6 py-2 rounded-full bg-mex-green text-white font-bold text-xs uppercase italic whitespace-nowrap">Tacos</button>
+        <button onclick="scrollToId('sec-quezas')" class="px-6 py-2 rounded-full bg-mex-red text-white font-bold text-xs uppercase italic whitespace-nowrap">Quezas</button>
+        <button onclick="scrollToId('sec-anto')" class="px-6 py-2 rounded-full bg-mex-yellow text-black font-bold text-xs uppercase italic whitespace-nowrap">Antojos</button>
+        <button onclick="scrollToId('sec-fruta')" class="px-6 py-2 rounded-full bg-orange-500 text-white font-bold text-xs uppercase italic whitespace-nowrap">Frutas</button>
+        <button onclick="scrollToId('sec-bebidas')" class="px-6 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase italic whitespace-nowrap">Bebidas</button>
+    </nav>
+
+    <main class="max-w-xl mx-auto p-4 space-y-10 mt-4">
+
+        <section id="promo" class="promo-banner rounded-3xl p-6 text-white relative overflow-hidden shadow-xl pulse">
+            <div class="relative z-10">
+                <span class="bg-mex-yellow text-mex-red px-3 py-1 rounded-full text-[10px] font-black uppercase">¡La Favorita! 🔥</span>
+                <h2 class="mexican-font text-4xl mt-2 italic text-mex-yellow">ARMA TU MIXTO</h2>
+                <p class="text-sm opacity-95 mb-6">4 órdenes de tacos. Elige 2 sabores distintos por solo S/ 16.00</p>
+                <button onclick="openMixtoModal()" class="bg-white text-mex-red w-full py-4 rounded-2xl font-black text-lg shadow-lg active:scale-95 transition-all">
+                    ELIGE TUS SABORES
+                </button>
+            </div>
+            <i class="fas fa-pepper-hot absolute -bottom-6 -right-6 text-9xl opacity-20 rotate-12"></i>
+        </section>
+
+        <div id="menu-content" class="space-y-12">
+            <section id="sec-tacos"><h3 class="mexican-font text-3xl text-mex-green border-b-4 border-mex-green inline-block mb-6 italic uppercase">Nuestros Tacos</h3><div class="grid gap-4" id="list-tacos"></div></section>
+            <section id="sec-quezas"><h3 class="mexican-font text-3xl text-mex-red border-b-4 border-mex-red inline-block mb-6 italic uppercase">Quezadillas</h3><div class="grid gap-4" id="list-quezas"></div></section>
+            <section id="sec-anto"><h3 class="mexican-font text-3xl text-mex-yellow border-b-4 border-mex-yellow inline-block mb-6 italic uppercase">Antojitos</h3><div class="grid gap-4" id="list-antojos"></div></section>
+            <section id="sec-fruta"><h3 class="mexican-font text-3xl text-orange-500 border-b-4 border-orange-500 inline-block mb-6 italic uppercase">Frutas Enchiladas</h3><div class="grid gap-4" id="list-frutas"></div></section>
+            <section id="sec-bebidas"><h3 class="mexican-font text-3xl text-blue-600 border-b-4 border-blue-600 inline-block mb-6 italic uppercase">Bebidas</h3><div class="space-y-8">
+                <div><p class="text-[10px] font-black uppercase text-gray-400 mb-3 tracking-widest">Aguas Frescas Naturales</p><div class="grid gap-4" id="list-aguas-frescas"></div></div>
+                <div><p class="text-[10px] font-black uppercase text-gray-400 mb-3 tracking-widest">Refrescos y Gaseosas</p><div class="grid gap-4" id="list-bebidas-frias"></div></div>
+                <div><p class="text-[10px] font-black uppercase text-gray-400 mb-3 tracking-widest">Bebidas Calientes</p><div class="grid gap-4" id="list-bebidas-calientes"></div></div>
+            </div></section>
+        </div>
+    </main>
+
+    <footer class="mt-20 py-12 px-6 text-center">
+        <div class="max-w-xl mx-auto space-y-8">
+            <div>
+                <h4 class="mexican-font text-2xl text-mex-yellow mb-4 italic uppercase">¡Siguenos en las redes!</h4>
+                <div class="flex justify-center gap-6 mt-4">
+                    <a href="https://wa.me/51931783811" target="_blank" class="w-14 h-14 bg-[#25D366] rounded-2xl flex items-center justify-center text-2xl shadow-lg active:scale-90 transition-all"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="w-14 h-14 bg-white text-black rounded-2xl flex items-center justify-center text-2xl shadow-lg active:scale-90 transition-all"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="w-14 h-14 bg-[#1877F2] rounded-2xl flex items-center justify-center text-2xl shadow-lg active:scale-90 transition-all"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-white/10 space-y-3">
+                <div class="flex items-center justify-center gap-2 text-sm"><i class="fas fa-map-marker-alt text-mex-red"></i><p>Av. Mariano Melgar (frente al parque infantil)</p></div>
+                <div class="flex items-center justify-center gap-2 text-lg font-bold"><i class="fas fa-phone-alt text-mex-green"></i><p>+51 931 783 811</p></div>
+            </div>
+        </div>
+    </footer>
+
+    <button onclick="openAIChat()" class="fixed bottom-28 right-6 bg-mex-yellow text-black w-16 h-16 rounded-full shadow-2xl flex items-center justify-center border-4 border-white z-40 pulse">
+        <span class="text-3xl">👨🏽‍🍳</span>
+        <div class="absolute -top-1 -right-1 bg-mex-red text-white text-[9px] px-2 py-1 rounded-full font-black animate-bounce">¡PIDE!</div>
+    </button>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-mex-red p-4 z-50 shadow-2xl">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
+            <div onclick="toggleCartModal()" class="cursor-pointer">
+                <p class="text-[10px] text-gray-400 font-black uppercase">Total Pedido</p>
+                <p class="text-2xl font-black text-mex-red" id="cart-total-display">S/ 0.00</p>
+            </div>
+            <button onclick="toggleCartModal()" class="bg-mex-green text-white px-8 py-3 rounded-2xl font-black text-sm flex items-center gap-3 shadow-lg active:scale-95 transition">VER ORDEN<span id="cart-count" class="bg-white text-mex-green w-6 h-6 rounded-full flex items-center justify-center text-[11px]">0</span></button>
+        </div>
+    </div>
+
+    <div id="mixto-modal" class="fixed inset-0 bg-black/80 z-[100] hidden p-4 flex items-center justify-center">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 relative">
+            <button onclick="closeMixtoModal()" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button>
+            <h3 class="mexican-font text-3xl text-mex-red italic text-center mb-1">¡ÁRMALO!</h3>
+            <p class="text-center text-xs text-gray-500 mb-6 uppercase font-bold tracking-widest">Selecciona 2 sabores (4 tacos)</p>
+            <div class="grid gap-3 mb-8" id="flavor-selection">
+                <button onclick="toggleFlavor('Birria')" class="flavor-chip p-4 rounded-2xl flex items-center justify-between bg-gray-50"><span class="font-bold">Tacos de Birria</span><i class="fas fa-check-circle text-mex-green opacity-0"></i></button>
+                <button onclick="toggleFlavor('Pastor')" class="flavor-chip p-4 rounded-2xl flex items-center justify-between bg-gray-50"><span class="font-bold">Tacos al Pastor</span><i class="fas fa-check-circle text-mex-green opacity-0"></i></button>
+                <button onclick="toggleFlavor('Asada')" class="flavor-chip p-4 rounded-2xl flex items-center justify-between bg-gray-50"><span class="font-bold">Tacos de Asada</span><i class="fas fa-check-circle text-mex-green opacity-0"></i></button>
+                <button onclick="toggleFlavor('Tinga')" class="flavor-chip p-4 rounded-2xl flex items-center justify-between bg-gray-50"><span class="font-bold">Tacos de Tinga</span><i class="fas fa-check-circle text-mex-green opacity-0"></i></button>
+            </div>
+            <button id="btn-confirm-mixto" disabled onclick="confirmMixto()" class="w-full bg-gray-200 text-gray-400 py-4 rounded-2xl font-black uppercase text-sm cursor-not-allowed">Elige 2 sabores</button>
+        </div>
+    </div>
+
+    <div id="ai-chat-window">
+        <header class="p-6 border-b flex justify-between items-center bg-mex-green text-white">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-mex-yellow rounded-full flex items-center justify-center text-2xl shadow-inner">👨🏽‍🍳</div>
+                <div><h3 class="mexican-font text-xl italic tracking-widest">EL CUATE AI</h3><p class="text-[10px] font-bold uppercase opacity-80">Experto en Tacos</p></div>
+            </div>
+            <button onclick="closeAIChat()" class="text-3xl">&times;</button>
+        </header>
+        <div id="ai-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50 no-scrollbar">
+            <div class="bg-white p-4 rounded-2xl rounded-tl-none border shadow-sm max-w-[85%]"><p class="text-sm text-gray-700 leading-relaxed">¡Ándele carnal! ¿Qué se te antoja hoy? Estamos en Av. Mariano Melgar frente al parque infantil. Cuéntame y te ayudo. 🌮🌶️</p></div>
+        </div>
+        <div class="p-6 border-t bg-white">
+            <div class="flex gap-2">
+                <input type="text" id="ai-input" placeholder="Pregúntame algo..." class="flex-1 bg-gray-100 border rounded-2xl px-5 py-4 text-sm outline-none focus:border-mex-green transition-all">
+                <button onclick="sendMessageToAI()" class="bg-mex-red text-white w-14 h-14 rounded-2xl flex items-center justify-center active:scale-90 transition shadow-lg"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-[60] hidden p-4 flex items-center justify-center">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="bg-mex-red p-6 text-white flex justify-between items-center"><h2 class="mexican-font text-2xl italic uppercase">TU ORDEN</h2><button onclick="toggleCartModal()"><i class="fas fa-times text-xl"></i></button></div>
+            <div id="cart-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar"></div>
+            <div class="p-6 border-t bg-gray-50 flex flex-col gap-4">
+                <div class="flex justify-between font-black text-2xl"><span>TOTAL</span><span id="modal-total" class="text-mex-red">S/ 0.00</span></div>
+                <button onclick="sendOrder()" class="bg-mex-green text-white w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 shadow-xl active:scale-95 transition uppercase"><i class="fab fa-whatsapp text-2xl"></i> PEDIR POR WHATSAPP</button>
+                <button onclick="clearCart()" class="text-xs text-gray-400 font-bold uppercase underline">Vaciar Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menuData = {
+            tacos: [
+                { name: "Tacos de Birria (Res)", price: 13, desc: "3 tacos supremos + consomé + salsas" },
+                { name: "Tacos al Pastor (Cerdo)", price: 13, desc: "3 tacos de cerdo marinado + piña" },
+                { name: "Tacos de Asada", price: 13, desc: "3 unidades de pura carne + guacamole" },
+                { name: "Tacos de Tinga", price: 13, desc: "3 unidades de pollo desmechado con chipotle" }
+            ],
+            quezas: [
+                { name: "Choriquezo", price: 16, desc: "3 tortillas de maíz + queso + chorizo + salchicha" },
+                { name: "Quezabirria", price: 16, desc: "3 tortillas de maíz + queso + birria + consomé" },
+                { name: "Quezadilla de Asada", price: 16, desc: "3 tortillas grandes + queso + carne asada" },
+                { name: "Quezadilla de Pollo", price: 16, desc: "3 tortillas grandes + queso + tinga" }
+            ],
+            antojos: [
+                { name: "Birriaramen", price: 8, desc: "Fideos ramen en caldo de birria con carne y queso" },
+                { name: "Doritos Locos", price: 10, desc: "Choclo, carne, queso y salsas sobre doritos" },
+                { name: "Burrito Individual", price: 9, desc: "Tortilla de harina, carne, pico de gallo y guac" },
+                { name: "Elotes", price: 7, desc: "Choclo entero con mayonesa, queso y chile" },
+                { name: "Esquites", price: 8, desc: "Choclo desgranado con crema, queso y toque mexicano" }
+            ],
+            frutas: [
+                { name: "Vaso Clásico", price: 5, desc: "Frutas de estación + tajín y chamoy" },
+                { name: "Vaso Atrevido", price: 7, desc: "Frutas + salsa agridulce especial + miguelito" },
+                { name: "Vaso Extremo", price: 9, desc: "Frutas + paleta de elote o mango artesanal" },
+                { name: "Magoneada", price: 7, desc: "Pulpa de mango helada con chile y limón" }
+            ],
+            aguasFrescas: [
+                { name: "Agua de Horchata", price: 2, desc: "Clásica de arroz con canela y leche" },
+                { name: "Agua de Jamaica", price: 2, desc: "Flor de jamaica natural, refrescante" },
+                { name: "Agua de Tamarindo", price: 2, desc: "Pulpita de tamarindo dulce y ácida" }
+            ],
+            bebidasFrias: [
+                { name: "Coca Cola (500ml)", price: 3.5, desc: "Gaseosa personal bien helada" },
+                { name: "Inka Kola (500ml)", price: 3.5, desc: "Gaseosa personal bien helada" },
+                { name: "Agua Mineral", price: 1.5, desc: "Botella 600ml sin gas" }
+            ],
+            bebidasCalientes: [
+                { name: "Café", price: 3, desc: "Cargadito y caliente" },
+                { name: "Anís", price: 2, desc: "Infusión relajante" },
+                { name: "Manzanilla", price: 2, desc: "Infusión digestiva" }
+            ]
+        };
+
+        let cart = [];
+        let selectedFlavors = [];
+
+        function init() {
+            renderList('list-tacos', menuData.tacos, 'bg-mex-green');
+            renderList('list-quezas', menuData.quezas, 'bg-mex-red');
+            renderList('list-antojos', menuData.antojos, 'bg-mex-yellow', 'text-black');
+            renderList('list-frutas', menuData.frutas, 'bg-orange-500');
+            renderList('list-aguas-frescas', menuData.aguasFrescas, 'bg-blue-400');
+            renderList('list-bebidas-frias', menuData.bebidasFrias, 'bg-blue-600');
+            renderList('list-bebidas-calientes', menuData.bebidasCalientes, 'bg-red-800');
+        }
+
+        function renderList(containerId, items, btnClass, textColor = 'text-white') {
+            const container = document.getElementById(containerId);
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'product-card p-5 rounded-3xl flex justify-between items-center shadow-sm';
+                div.innerHTML = `
+                    <div class="flex-1 pr-4">
+                        <h4 class="font-bold text-lg leading-tight uppercase">${item.name}</h4>
+                        <p class="text-[10px] text-gray-500 mt-1 leading-relaxed">${item.desc}</p>
+                        <p class="text-mex-red font-black mt-2 text-xl italic">S/ ${item.price.toFixed(2)}</p>
+                    </div>
+                    <button onclick="addToCart('${item.name}', ${item.price})" class="${btnClass} ${textColor} w-14 h-14 rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition"><i class="fas fa-plus"></i></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openMixtoModal() {
+            selectedFlavors = [];
+            document.querySelectorAll('.flavor-chip').forEach(c => { c.classList.remove('selected'); c.querySelector('i').classList.add('opacity-0'); });
+            updateMixtoBtn();
+            document.getElementById('mixto-modal').classList.remove('hidden');
+        }
+        function closeMixtoModal() { document.getElementById('mixto-modal').classList.add('hidden'); }
+        function toggleFlavor(flavor) {
+            const index = selectedFlavors.indexOf(flavor);
+            const cards = document.querySelectorAll('.flavor-chip');
+            let clickedCard;
+            cards.forEach(c => { if(c.innerText.includes(flavor)) clickedCard = c; });
+            if (index > -1) {
+                selectedFlavors.splice(index, 1);
+                clickedCard.classList.remove('selected');
+                clickedCard.querySelector('i').classList.add('opacity-0');
+            } else if (selectedFlavors.length < 2) {
+                selectedFlavors.push(flavor);
+                clickedCard.classList.add('selected');
+                clickedCard.querySelector('i').classList.remove('opacity-0');
+            }
+            updateMixtoBtn();
+        }
+        function updateMixtoBtn() {
+            const btn = document.getElementById('btn-confirm-mixto');
+            if (selectedFlavors.length === 2) {
+                btn.disabled = false;
+                btn.innerText = "¡AÑADIR MIXTO!";
+                btn.classList.replace('bg-gray-200', 'bg-mex-yellow');
+                btn.classList.replace('text-gray-400', 'text-black');
+                btn.classList.remove('cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.innerText = `Elige ${selectedFlavors.length}/2 sabores`;
+                btn.classList.add('bg-gray-200', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-mex-yellow', 'text-black');
+            }
+        }
+        function confirmMixto() { addToCart(`MIXTO (${selectedFlavors.join(' y ')})`, 16.00); closeMixtoModal(); }
+        function addToCart(name, price) {
+            const item = cart.find(i => i.name === name);
+            if (item) item.qty++; else cart.push({ name, price, qty: 1 });
+            updateUI();
+        }
+        function updateUI() {
+            const count = cart.reduce((a, b) => a + b.qty, 0);
+            const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-total-display').innerText = `S/ ${total.toFixed(2)}`;
+            document.getElementById('modal-total').innerText = `S/ ${total.toFixed(2)}`;
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = cart.length === 0 ? '<p class="text-center text-gray-400 py-10">Todavía no tienes tacos...</p>' :
+                cart.map((item, index) => `
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex-1 pr-2">
+                        <p class="font-bold text-sm uppercase leading-tight">${item.name}</p>
+                        <p class="text-xs text-mex-red font-black mt-1">S/ ${(item.price * item.qty).toFixed(2)}</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-100 rounded-xl p-1">
+                        <button onclick="changeQty(${index}, -1)" class="w-8 h-8 rounded-lg bg-white shadow-sm font-bold text-xl">-</button>
+                        <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                        <button onclick="changeQty(${index}, 1)" class="w-8 h-8 rounded-lg bg-white shadow-sm font-bold text-xl">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function changeQty(index, delta) { cart[index].qty += delta; if (cart[index].qty <= 0) cart.splice(index, 1); updateUI(); }
+        function toggleCartModal() { document.getElementById('cart-modal').classList.toggle('hidden'); }
+        function clearCart() { if(confirm("¿Vaciamos el carrito carnal?")) { cart = []; updateUI(); toggleCartModal(); } }
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            const offset = 100;
+            const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+        }
+
+        function sendOrder() {
+            if (cart.length === 0) return;
+            let msg = "🌮 *PEDIDO: LA PARADITA MX* 🇲🇽%0A%0A";
+            cart.forEach(item => msg += `✅ *${item.qty}x* ${item.name} -> S/ ${(item.price * item.qty).toFixed(2)}%0A`);
+            msg += `%0A💰 *TOTAL: S/ ${document.getElementById('modal-total').innerText}*%0A%0A🤔 *¿Por favor, me indica en cuánto tiempo estará listo mi pedido?*`;
+            window.open(`https://wa.me/51931783811?text=${msg}`, '_blank');
+        }
+
+        function openAIChat() { document.getElementById('ai-chat-window').classList.add('active'); }
+        function closeAIChat() { document.getElementById('ai-chat-window').classList.remove('active'); }
+
+        async function sendMessageToAI() {
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+            if (!message) return;
+            const container = document.getElementById('ai-messages');
+            container.innerHTML += `<div class="bg-mex-red/10 p-4 rounded-2xl rounded-tr-none border border-mex-red/20 ml-auto max-w-[85%] text-right text-sm text-gray-800 font-bold">${message}</div>`;
+            input.value = '';
+            const loading = document.createElement('div');
+            loading.className = "bg-white p-4 rounded-2xl rounded-tl-none border shadow-sm w-20";
+            loading.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            container.appendChild(loading);
+            container.scrollTop = container.scrollHeight;
+
+            try {
+                const response = await callGemini(message);
+                loading.remove();
+                container.innerHTML += `<div class="bg-white p-4 rounded-2xl rounded-tl-none border shadow-sm max-w-[85%] text-sm text-gray-700">${response}</div>`;
+                container.scrollTop = container.scrollHeight;
+            } catch (e) {
+                loading.remove();
+                container.innerHTML += `<div class="bg-white p-4 rounded-2xl border text-xs text-red-500">Híjole carnal, se me quemaron los frijoles. Intenta de nuevo.</div>`;
+            }
+        }
+
+        async function callGemini(query) {
+            const apiKey = "AIzaSyAOBZPsQATmR4cx1VoUb1WXAEEXDhUlmJM"; 
+            
+            const system = `Eres "El Cuate", mesero experto de "La Paradita" en Mazamari (frente al parque infantil). 
+            Tu misión es recomendar el menú: ${JSON.stringify(menuData)}. 
+            Usa jerga mexicana amigable (carnal, ándele, qué onda chavo). 
+            Recomienda siempre una Agua de Horchata o una Inka Kola para acompañar. 
+            Sé breve y servicial.`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    contents: [{ role: "user", parts: [{ text: system + "\n\nPregunta del cliente: " + query }] }]
+                })
+            });
+            const data = await res.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Lo siento carnal, ando atendiendo una mesa. ¡Repíteme la pregunta!";
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
